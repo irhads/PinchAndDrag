@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-struct ImagePinchNZoom: View {
+struct ImagePinchNDrag: View {
     // Creates variables to hold drag position and zoom scale
     @State private var currentPosition: CGSize = .zero
     @State private var newPosition: CGSize = .zero
@@ -51,8 +51,8 @@ struct ImagePinchNZoom: View {
     }
 }
 
-struct ImagePinchNZoom_Previews: PreviewProvider {
+struct ImagePinchNDrag_Previews: PreviewProvider {
     static var previews: some View {
-        ImagePinchNZoom()
+        ImagePinchNDrag()
     }
 }
