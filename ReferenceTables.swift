@@ -1,26 +1,13 @@
 //
-//  ReferenceTables.swift
-//  Learn Bosnian
-//
+//  PinchNDrag
+//  Swift 5
 //  Created by Irhad Sehovic on 5/4/21.
 //
 
 import SwiftUI
 
-struct ReferenceTables: View {
-    var body: some View {
-        List {
-            NavigationLink(destination: NominativeTable(), label: {
-                LessonButton(lessonNum: 1, lessonName: "Nominative Case")
-            })
-            NavigationLink(destination: AccusativeTable(), label: {
-                LessonButton(lessonNum: 2, lessonName: "Accusative Case")
-            })
-        }
-    }
-}
-
-struct NominativeTable: View {
+struct ImagePinchNZoom: View {
+    // Creates variables to hold drag position and zoom scale
     @State private var currentPosition: CGSize = .zero
     @State private var newPosition: CGSize = .zero
     @State private var currentScale: CGFloat = 1
@@ -28,6 +15,7 @@ struct NominativeTable: View {
     
     var body: some View {
         
+        // Creates the Pinch gesture
         let pinchGesture = MagnificationGesture().onChanged { (value)
             in
             currentScale = CGFloat(value + newScale)-1
@@ -35,6 +23,7 @@ struct NominativeTable: View {
             newScale = currentScale
         }
         
+        // Creates the Drag gesture
         let dragGesture = DragGesture().onChanged { (value)
             in
             self.currentPosition = CGSize(width: value.translation.width + self.newPosition.width, height: value.translation.height + self.newPosition.height)
@@ -44,152 +33,26 @@ struct NominativeTable: View {
             
         }
         
+        // Creates a simultaneous gesture
         let pinchNDrag = dragGesture.simultaneously(with: pinchGesture)
         
         VStack{
             Spacer()
-            Text("Nominative Case Endings")
-                .font(.title2)
-                .bold()
-            Text("You can pinch and zoom.")
-                .font(.caption)
-                .padding()
-            Image("NominativeTable")
+            Image("ImageName") // Insert image name here
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .padding(.horizontal)
-                .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
-                .scaleEffect(max(currentScale,1))
+                .zIndex(1.0) // Only necessary if you have text/image code below this line that will cover your image if it's zoomed. 
+                .scaleEffect(max(currentScale,1)) // Makes it impossible to shrink the image
                 .offset(x: self.currentPosition.width, y: self.currentPosition.height)
                 .gesture(pinchNDrag)
-            Text("How to read this table:").bold()
-                .padding()
-            VStack(alignment: .leading){
-                Text("1. Is the word masculine, neuter, feminine, or feminine zero-ending? Find the gender of the word and go to that row.")
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
-                    .padding(.horizontal)
-                Text("2. Is the word singular or is it plural (is the word about one thing or multiple things)? Look under the yellow section if it's singular or the blue section if it's plural.")
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
-                    .padding()
-                Text("3. Is the word an adjective or a noun? (If the word is a description word, like \"red\" or \"big\", it's an adjective. If it's a thing, like \"dog\" or \"house\", it's a noun.")
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
-                    .padding(.horizontal)
-                HStack {
-                    Spacer()
-                    Text("You have found the right word ending!")
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                        .font(.callout)
-                        .padding()
-                    Spacer()
-                }
-            }
             Spacer()
         }
     }
 }
 
-struct AccusativeTable: View {
-    @State private var currentPosition: CGSize = .zero
-    @State private var newPosition: CGSize = .zero
-    @State private var currentScale: CGFloat = 1
-    @State private var newScale: CGFloat = 1
-    
-    var body: some View {
-        
-        let pinchGesture = MagnificationGesture().onChanged { (value)
-            in
-            currentScale = CGFloat(value + newScale)-1
-        }.onEnded { value in
-            newScale = currentScale
-        }
-        
-        let dragGesture = DragGesture().onChanged { (value)
-            in
-            self.currentPosition = CGSize(width: value.translation.width + self.newPosition.width, height: value.translation.height + self.newPosition.height)
-        }.onEnded { value in
-            self.currentPosition = CGSize(width: value.translation.width + self.newPosition.width, height: value.translation.height + self.newPosition.height)
-            self.newPosition = self.currentPosition
-            
-        }
-        
-        let pinchNDrag = dragGesture.simultaneously(with: pinchGesture)
-        
-        VStack{
-            Spacer()
-            Text("Accusative Case Endings")
-                .font(.title2)
-                .bold()
-            Text("You can pinch and zoom.")
-                .font(.caption)
-                .padding()
-            Image("AccusativeTable")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding(.horizontal)
-                .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
-                .scaleEffect(max(currentScale,1))
-                .offset(x: self.currentPosition.width, y: self.currentPosition.height)
-                .gesture(pinchNDrag)
-            Text("How to read this table:").bold()
-                .padding()
-            VStack(alignment: .leading){
-                Text("1. Is the word masculine, neuter, feminine, or feminine zero-ending? Find the gender of the word and go to that row.")
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
-                    .padding(.horizontal)
-                Text("2. Is the word singular or is it plural (is the word about one thing or multiple things)? Look under the yellow section if it's singular or the blue section if it's plural.")
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
-                    .padding()
-                Text("3. Is the word an adjective or a noun? (If the word is a description word, like \"red\" or \"big\", it's an adjective. If it's a thing, like \"dog\" or \"house\", it's a noun.")
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.callout)
-                    .padding(.horizontal)
-                HStack {
-                    Spacer()
-                    Text("You have found the right word ending!")
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                        .font(.callout)
-                        .padding()
-                    Spacer()
-                }
-            }
-            Spacer()
-        }
-    }
-}
-
-struct ReferenceTables_Previews: PreviewProvider {
+struct ImagePinchNZoom_Previews: PreviewProvider {
     static var previews: some View {
-        NominativeTable()
+        ImagePinchNZoom()
     }
 }
-
-/* Geestures Archive
-.gesture(DragGesture()
-            .onChanged { value in
-                withAnimation(.spring()) {
-                    offset = value.translation
-                }
-            }
-            .onEnded { value in
-                withAnimation(.spring()) {
-                    offset = .zero
-                }
-            }
-            )
-.gesture(MagnificationGesture()
-            .onChanged { value in
-                currentAmount = value - 1
-            }
-            .onEnded { value in
-                withAnimation(.spring()) {
-                    currentAmount = 0
-                }
-            })
-*/
