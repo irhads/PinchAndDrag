@@ -1,4 +1,4 @@
-# PinchAndDrag
+# Image PinchAndDrag
 SwiftUI Pinch (Zoom) and Drag Image
 
 Adds an Instagram-like pinch-to-zoom and drag feature for images in SwiftUI. Removes the snap-back, spring feature so image will stay in place after zoom/being dragged.
